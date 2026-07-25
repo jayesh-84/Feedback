@@ -1,0 +1,39 @@
+pragma language_version 0.17.0;
+
+import CompactStandardLibrary;
+
+export ledger rating_sum: Counter;
+export ledger feedback_count: Counter;
+export ledger latest_comment: Maybe<Opaque<"string">>;
+export ledger latest_rating: Uint<32>;
+export ledger board_owner: Bytes<32>;
+
+constructor() {
+  rating_sum.increment(0);
+  feedback_count.increment(0);
+  latest_comment = none<Opaque<"string">>();
+  latest_rating = 0;
+  board_owner = disclose(publicKey(localSecretKey()));
+}
+
+witness localSecretKey(): Bytes<32>;
+
+export circuit submitFeedback(rating: Uint<32>, comment: Opaque<"string">): [] {
+  assert(rating >= 1, "Rating must be at least 1");
+  assert(rating <= 5, "Rating must be at most 5");
+
+  rating_sum.increment(disclose(rating as Uint<16>));
+  feedback_count.increment(1);
+  latest_comment = disclose(some<Opaque<"string">>(comment));
+  latest_rating = disclose(rating);
+}
+
+export circuit clearFeedback(): [] {
+  assert(board_owner == publicKey(localSecretKey()), "Only the board owner can clear feedback");
+  latest_comment = none<Opaque<"string">>();
+  latest_rating = disclose(0);
+}
+
+export circuit publicKey(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "feedback:pk:"), sk]);
+}
