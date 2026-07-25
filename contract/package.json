@@ -13,9 +13,9 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/bboard.compact ./dist",
+    "build": "node build.js",
     "ci": "npm run compact && npm run typecheck && npm run lint && npm run build && npm run test",
-    "compact": "compact compile src/bboard.compact ./src/managed/bboard",
+    "compact": "run-compactc src/feedback.compact ./src/managed/feedback",
     "lint": "eslint src",
     "prepack": "npm build",
     "test": "vitest",

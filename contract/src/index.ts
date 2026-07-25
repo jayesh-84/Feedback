@@ -15,15 +15,15 @@
 
 import { CompiledContract } from "@midnight-ntwrk/midnight-js-protocol/compact-js";
 
-export * from "./managed/bboard/contract/index.js";
+export * from "./managed/feedback/contract/index.js";
 export * from "./witnesses";
 
-import * as CompiledBBoardContract from "./managed/bboard/contract/index.js";
+import * as CompiledFeedbackContract from "./managed/feedback/contract/index.js";
 import * as Witnesses from "./witnesses";
 
-export const CompiledBBoardContractContract = CompiledContract.make<
-  CompiledBBoardContract.Contract<Witnesses.BBoardPrivateState>
->("BBoard", CompiledBBoardContract.Contract<Witnesses.BBoardPrivateState>).pipe(
-  CompiledContract.withWitnesses(Witnesses.witnesses),
-  CompiledContract.withCompiledFileAssets("./managed/bboard"),
+export const CompiledFeedbackContractContract = CompiledContract.make<
+  any
+>("Feedback", CompiledFeedbackContract.Contract as any).pipe(
+  CompiledContract.withWitnesses(Witnesses.witnesses as any),
+  CompiledContract.withCompiledFileAssets("./managed/feedback"),
 );
