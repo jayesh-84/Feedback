@@ -5,6 +5,10 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "scripts": {
+    "compact": "npm run compact --workspace=@midnight-ntwrk/bboard-contract",
+    "build": "npm run build --workspace=@midnight-ntwrk/bboard-contract && npm run build --workspace=@midnight-ntwrk/bboard-api && npm run build --workspace=@midnight-ntwrk/bboard-ui"
+  },
   "engines": {
     "node": ">=24.11.1"
   },
